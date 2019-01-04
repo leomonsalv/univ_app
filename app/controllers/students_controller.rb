@@ -1,7 +1,10 @@
 class StudentsController < ApplicationController
-  
   def index
     @students = Student.all
+  end
+  
+  def show
+    @student = Student.find(params[:id])
   end
   
   def new
@@ -11,17 +14,17 @@ class StudentsController < ApplicationController
   def create
     @student = Student.new(student_params)
     if @student.save
-      flash[:success] = "You have successfully signed up"
+      flash[:notice] = "Welcome #{@student.name}, you have successfully signed up"
       redirect_to root_path
     else
-      render  'new'
+      render 'new'
     end
   end
   
   private
   
   def student_params
-    
+    params.require(:student).permit(:name, :email)
   end
   
 end
